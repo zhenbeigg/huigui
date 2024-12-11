@@ -1,0 +1,19 @@
+{
+    "name": "eykj/haigui",
+    "description": "一一科技嗨柜组件",
+    "license": "MIT",
+    "keywords": [
+        "eykj",
+        "haigui"
+    ],
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "Eykj\\Haigui\\": "src/"
+        },
+        "files": []
+    },
+    "config": {
+        "sort-packages": true
+    }
+}
