@@ -3,41 +3,50 @@
  * @author: 布尔
  * @name:  C端api
  * @desc: 介绍
- * @LastEditTime: 2024-12-12 11:41:04
+ * @LastEditTime: 2024-12-20 17:45:11
  */
 
 namespace Eykj\Haigui;
 
-use Eykj\AliyunApiGateway\Service;
-use function Hyperf\Support\env;
-
-class Api
+class ApiC extends Service
 {
-    private  $Service;
-
     /**
-     * 构造方法初始化配置参数
+     * @author: 布尔
+     * @name: 创建订单
+     * @param array $param
      */
-    public function __construct()
+    public function order_create(array $param)
     {
-        $this->Service =  new Service(env('HAIGUI_APP_KEY', ''), env('HAIGUI_APP_SECRET', ''), env('HAIGUI_HOST', 'https://api-dev.hpzn.vip'));
+        //域名后、query前的部分
+        $path = "/api-c/order/create";
+        // 请求体
+        $bodys = eyc_array_key($param, 'outOrderNo|number,outConsumerId|userid,machineId|machine_id,details');
+        return $this->Client->doPostStream($path, bodyContent: json_encode($bodys, 320));
     }
     /**
      * @author: 布尔
-     * @name: 获取版本号
+     * @name: 订单解锁货柜
      * @param array $param
-     * @return array
      */
-    public function version($path, array $headers, array $querys, $debug = false)
+    public function machine_shop_create(array $param)
     {
         //域名后、query前的部分
-        $path = "/get";
-        $request = new HttpRequest($this::$host, $path, HttpMethod::GET, $this::$appKey, $this::$appSecret);
-
-        //设定Content-Type，根据服务器端接受的值来设置
-        $request->setHeader(HttpHeader::HTTP_HEADER_CONTENT_TYPE, ContentType::CONTENT_TYPE_TEXT);
-
-        //设定Accept，根据服务器端接受的值来设置
-        $request->setHeader(HttpHeader::HTTP_HEADER_ACCEPT, ContentType::CONTENT_TYPE_TEXT);
+        $path = "/api-c/machine/lock-up";
+        // 请求体
+        $bodys = eyc_array_key($param, 'orderId,machineId|machine_id');
+        return $this->Client->doPostStream($path, bodyContent: json_encode($bodys, 320));
+    }
+    /**
+     * @author: 布尔
+     * @name: 合作方同步订单状态
+     * @param array $param
+     */
+    public function order_sync_status(array $param)
+    {
+        //域名后、query前的部分
+        $path = "/api-c/order/sync-status";
+        // 请求体
+        $bodys = eyc_array_key($param, 'orderId|commodity_id,orderStatus');
+        return $this->Client->doPostStream($path, bodyContent: json_encode($bodys, 320));
     }
 }
