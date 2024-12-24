@@ -20,7 +20,9 @@ class ApiC extends Service
         //域名后、query前的部分
         $path = "/api-c/order/create";
         // 请求体
-        $bodys = eyc_array_key($param, 'outOrderNo|number,outConsumerId|userid,machineId|machine_id,details');
+        $bodys = eyc_array_key($param, 'outOrderNo|number,outConsumerId|id,machineId|machine_id,details');
+        $bodys['outConsumerId'] = (int)$bodys['outConsumerId'];
+        $bodys['machineId'] = (int)$bodys['machineId'];
         return $this->Client->doPostStream($path, bodyContent: json_encode($bodys, 320));
     }
     /**
@@ -34,6 +36,8 @@ class ApiC extends Service
         $path = "/api-c/machine/lock-up";
         // 请求体
         $bodys = eyc_array_key($param, 'orderId,machineId|machine_id');
+        $bodys['orderId'] = (int)$bodys['orderId'];
+        $bodys['machineId'] = (int)$bodys['machineId'];
         return $this->Client->doPostStream($path, bodyContent: json_encode($bodys, 320));
     }
     /**
@@ -47,6 +51,8 @@ class ApiC extends Service
         $path = "/api-c/order/sync-status";
         // 请求体
         $bodys = eyc_array_key($param, 'orderId|commodity_id,orderStatus');
+        $bodys['orderId'] = (int)$bodys['orderId'];
+        $bodys['orderStatus'] = (int)$bodys['orderStatus'];
         return $this->Client->doPostStream($path, bodyContent: json_encode($bodys, 320));
     }
 }

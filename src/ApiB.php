@@ -3,7 +3,7 @@
  * @author: 布尔
  * @name:  B端api
  * @desc: 介绍
- * @LastEditTime: 2024-12-20 17:36:05
+ * @LastEditTime: 2024-12-23 16:18:25
  */
 
 namespace Eykj\Haigui;
@@ -21,6 +21,7 @@ class ApiB extends Service
         $path = "/api-b/machine-shop/search";
         // 请求体
         $bodys = eyc_array_key($param, 'machineId|machine_id');
+        $bodys['machineId'] = (int)$bodys['machineId'];
         return $this->Client->doPostStream($path, bodyContent: json_encode($bodys, 320));
     }
     /**
@@ -47,6 +48,7 @@ class ApiB extends Service
         $path = "/api-b/commodity-shop/search";
         // 请求体
         $bodys = eyc_array_key($param, 'commodityId|commodity_id');
+        $bodys['machineId'] = (int)$bodys['machineId'];
         return $this->Client->doPostStream($path, bodyContent: json_encode($bodys, 320));
     }
     /**
@@ -60,6 +62,10 @@ class ApiB extends Service
         $path = "/api-b/commodity-shop/create";
         // 请求体
         $bodys = eyc_array_key($param, 'name|title,packId|pack_id,categoryId|category_id,price,images|image');
+        $bodys['packId'] = (int)$bodys['packId'];
+        $bodys['categoryId'] = (int)$bodys['categoryId'];
+        $bodys['images'] = y_json_decode($bodys['images']);
+        $bodys['price'] = (float)($bodys['price'] ?? 0.01);
         return $this->Client->doPostStream($path, bodyContent: json_encode($bodys, 320));
     }
     /**
@@ -72,7 +78,8 @@ class ApiB extends Service
         //域名后、query前的部分
         $path = "/api-b/commodity-shop/delete";
         // 请求体
-        $bodys = eyc_array_key($param, 'name|title,packId|pack_id,categoryId|category_id,price,images|image');
+        $bodys = eyc_array_key($param, 'commodityId|commodity_id');
+        $bodys['commodityId'] = (int)$bodys['commodityId'];
         return $this->Client->doPostStream($path, bodyContent: json_encode($bodys, 320));
     }
     /**
@@ -86,6 +93,7 @@ class ApiB extends Service
         $path = "/api-b/commodity-machine/update";
         // 请求体
         $bodys = eyc_array_key($param, 'machineId|machine_id,commodity,machineSerialNum|machineSn,name|title,name|title,address');
+        $bodys['machineId'] = (int)$bodys['machineId'];
         return $this->Client->doPostStream($path, bodyContent: json_encode($bodys, 320));
     }
     /**
@@ -99,6 +107,10 @@ class ApiB extends Service
         $path = "/api-b/machine/manager";
         // 请求体
         $bodys = eyc_array_key($param, 'machineId|machine_id,action,param');
+        $bodys['machineId'] = (int)$bodys['machineId'];
+        if (isset($bodys['param'])) {
+            $bodys['param'] = (int)$bodys['param'];
+        }
         return $this->Client->doPostStream($path, bodyContent: json_encode($bodys, 320));
     }
     /**
@@ -111,7 +123,7 @@ class ApiB extends Service
         //域名后、query前的部分
         $path = "/api-b/machine/get-status";
         // 请求体
-        $bodys = eyc_array_key($param, 'machineId|machine_id');
+        $bodys = eyc_array_key($param, 'machineIds|machine_ids');
         return $this->Client->doPostStream($path, bodyContent: json_encode($bodys, 320));
     }
     /**
@@ -125,6 +137,7 @@ class ApiB extends Service
         $path = "/api-b/machine/update-ads";
         // 请求体
         $bodys = eyc_array_key($param, 'machineId|machine_id,ads');
+        $bodys['machineId'] = (int)$bodys['machineId'];
         return $this->Client->doPostStream($path, bodyContent: json_encode($bodys, 320));
     }
 }
