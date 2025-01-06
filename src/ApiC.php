@@ -3,7 +3,7 @@
  * @author: 布尔
  * @name:  C端api
  * @desc: 介绍
- * @LastEditTime: 2024-12-20 17:45:11
+ * @LastEditTime: 2025-01-02 17:26:37
  */
 
 namespace Eykj\Haigui;
@@ -30,7 +30,7 @@ class ApiC extends Service
      * @name: 订单解锁货柜
      * @param array $param
      */
-    public function machine_shop_create(array $param)
+    public function machine_lock_up(array $param)
     {
         //域名后、query前的部分
         $path = "/api-c/machine/lock-up";
@@ -50,7 +50,7 @@ class ApiC extends Service
         //域名后、query前的部分
         $path = "/api-c/order/sync-status";
         // 请求体
-        $bodys = eyc_array_key($param, 'orderId|commodity_id,orderStatus');
+        $bodys = eyc_array_key($param, 'orderId,orderStatus');
         $bodys['orderId'] = (int)$bodys['orderId'];
         $bodys['orderStatus'] = (int)$bodys['orderStatus'];
         return $this->Client->doPostStream($path, bodyContent: json_encode($bodys, 320));
